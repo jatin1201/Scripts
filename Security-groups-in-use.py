@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import boto3
-import argparse
 
 
 def lookup_by_id(sgid):
@@ -12,14 +11,6 @@ def lookup_by_id(sgid):
 client = boto3.client('ec2')
 regions_dict = client.describe_regions()
 region_list = [region['RegionName'] for region in regions_dict['Regions']]
-
-# parse arguments
-parser = argparse.ArgumentParser(description="Show unused security groups")
-parser.add_argument("-r", "--region", type=str, default="us-east-1",
-                    help="The default region is us-east-1. The list of available regions are as follows: %s" % sorted(
-                        region_list))
-parser.add_argument("-d", "--delete", help="delete security groups from AWS", action="store_true")
-args = parser.parse_args()
 
 ec2 = boto3.resource('ec2')
 all_groups = []
